@@ -67,6 +67,7 @@ const StarshipTable: React.FC = () => {
   const [distance, setDistance] = useState(10000);
   const [starshipData, setStarshipsData] = useState<StartshipData[]>([]);
   const [totalStarship, setTotalStarship] = useState(0);
+  const [isMaxValue, setIsMaxValue] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -120,13 +121,29 @@ const StarshipTable: React.FC = () => {
         Change the value to calculate the number of Pit Stop{' '}
       </Typography>
       <TextField
+        error={isMaxValue}
         label="Distance"
         variant="outlined"
         required
         value={distance}
-        onChange={e => setDistance(Number(e.target.value))}
-        helperText="Type the distance in MGLT"
+        onChange={e => {
+          // Handle max INTERGER to avoid NaN erros
+          setIsMaxValue(false);
+          if (distance > Number.MAX_SAFE_INTEGER) {
+            setIsMaxValue(!isMaxValue);
+            setDistance(Number.MAX_SAFE_INTEGER);
+            return;
+          }
+
+          setDistance(Number(e.target.value));
+        }}
+        helperText={
+          !isMaxValue
+            ? 'Type the distance in MGLT'
+            : `Max value is ${Number.MAX_SAFE_INTEGER}`
+        }
       />
+
       <TableContainer>
         <Table aria-label="starships data">
           <TableHead>
