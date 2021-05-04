@@ -14,7 +14,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 
-import { Container } from './StarshipForm.styles';
+import { Container } from './StarshipTable.styles';
 import api from '../../services/api';
 
 interface StartshipData {
@@ -55,7 +55,7 @@ const StyledTableCell = withStyles(() => ({
   },
 }))(TableCell);
 
-const StarshipForm: React.FC = () => {
+const StarshipTable: React.FC = () => {
   const [distance, setDistance] = useState(10000);
   const [starshipData, setStarshipsData] = useState<StartshipData[]>([]);
   const [totalStarship, setTotalStarship] = useState(0);
@@ -90,7 +90,7 @@ const StarshipForm: React.FC = () => {
     return starshipData.map(starship => {
       if (starship.consumables) {
         const [timeNumber, timeText] = starship.consumables.split(' ');
-        const numbersPitStop = Math.round(
+        const numbersPitStop = Math.floor(
           distance /
             (Number(timeNumber) *
               consumablesTimeToHours(timeText) *
@@ -173,4 +173,4 @@ const StarshipForm: React.FC = () => {
   );
 };
 
-export default StarshipForm;
+export default StarshipTable;
