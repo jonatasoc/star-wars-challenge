@@ -47,13 +47,21 @@ const consumablesTimeToHours = (consumablesTime: string) => {
 
 const StyledTableCell = withStyles(() => ({
   head: {
-    backgroundColor: '#f5f5f5',
-    color: '#2e384d',
+    backgroundColor: 'var(--background)',
+    color: 'var(--title)',
   },
   body: {
     fontSize: 14,
   },
 }))(TableCell);
+
+const StyledTableRow = withStyles(() => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: '#f5f5f5',
+    },
+  },
+}))(TableRow);
 
 const StarshipTable: React.FC = () => {
   const [distance, setDistance] = useState(10000);
@@ -133,7 +141,7 @@ const StarshipTable: React.FC = () => {
           <TableBody>
             {starshipDataWithPitStopInfo.length > 0 &&
               starshipDataWithPitStopInfo.map(starship => (
-                <TableRow key={starship.name}>
+                <StyledTableRow key={starship.name}>
                   <TableCell component="th" scope="row">
                     {starship.name}
                   </TableCell>
@@ -147,7 +155,7 @@ const StarshipTable: React.FC = () => {
                         : starship.numbersPitStop}
                     </strong>
                   </TableCell>
-                </TableRow>
+                </StyledTableRow>
               ))}
           </TableBody>
           <TableFooter>
